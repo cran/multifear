@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 720.00 576.00'>
+<defs>
+  <style type='text/css'><![CDATA[
+    line, polyline, polygon, path, rect, circle {
+      fill: none;
+      stroke: #000000;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-miterlimit: 10.00;
+    }
+  ]]></style>
+</defs>
+<rect width='100%' height='100%' style='stroke: none; fill: #FFFFFF;'/>
+<text x='14.17' y='84.95' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='191.81px' lengthAdjust='spacingAndGlyphs'>t-test two.sided | data used: full data</text>
+<text x='14.17' y='218.27' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='179.14px' lengthAdjust='spacingAndGlyphs'>t-test greater | data used: full data</text>
+<text x='14.17' y='351.58' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='212.94px' lengthAdjust='spacingAndGlyphs'>rep ANOVA cs:time | data used: full data</text>
+<text x='14.17' y='484.90' style='font-size: 12.00px; font-family: Liberation Sans;' textLength='186.94px' lengthAdjust='spacingAndGlyphs'>rep ANOVA cs | data used: full data</text>
+<polyline points='263.11,547.43 263.11,14.17 ' style='stroke-width: 0.75; stroke: #D3D3D3;' />
+<polyline points='301.92,547.43 301.92,14.17 ' style='stroke-width: 0.75; stroke: #DDDDDD; stroke-dasharray: 4.00,4.00;' />
+<polyline points='340.73,547.43 340.73,14.17 ' style='stroke-width: 0.75; stroke: #DDDDDD; stroke-dasharray: 4.00,4.00;' />
+<polyline points='379.54,547.43 379.54,14.17 ' style='stroke-width: 0.75; stroke: #DDDDDD; stroke-dasharray: 4.00,4.00;' />
+<polyline points='418.35,547.43 418.35,14.17 ' style='stroke-width: 0.75; stroke: #DDDDDD; stroke-dasharray: 4.00,4.00;' />
+<polyline points='457.16,547.43 457.16,14.17 ' style='stroke-width: 0.75; stroke: #DDDDDD; stroke-dasharray: 4.00,4.00;' />
+<polyline points='495.97,547.43 495.97,14.17 ' style='stroke-width: 0.75; stroke: #DDDDDD; stroke-dasharray: 4.00,4.00;' />
+<polyline points='534.78,547.43 534.78,14.17 ' style='stroke-width: 0.75; stroke: #DDDDDD; stroke-dasharray: 4.00,4.00;' />
+<polyline points='573.59,547.43 573.59,14.17 ' style='stroke-width: 0.75; stroke: #DDDDDD; stroke-dasharray: 4.00,4.00;' />
+<polyline points='612.40,547.43 612.40,14.17 ' style='stroke-width: 0.75; stroke: #DDDDDD; stroke-dasharray: 4.00,4.00;' />
+<polyline points='651.22,547.43 651.22,14.17 ' style='stroke-width: 0.75; stroke: #DDDDDD; stroke-dasharray: 4.00,4.00;' />
+<polyline points='690.03,547.43 690.03,14.17 ' style='stroke-width: 0.75; stroke: #DDDDDD; stroke-dasharray: 4.00,4.00;' />
+<polyline points='263.11,547.43 690.03,547.43 ' style='stroke-width: 0.75;' />
+<line x1='263.11' y1='547.43' x2='263.11' y2='551.03' style='stroke-width: 0.75;' />
+<line x1='301.92' y1='547.43' x2='301.92' y2='551.03' style='stroke-width: 0.75;' />
+<line x1='340.73' y1='547.43' x2='340.73' y2='551.03' style='stroke-width: 0.75;' />
+<line x1='379.54' y1='547.43' x2='379.54' y2='551.03' style='stroke-width: 0.75;' />
+<line x1='418.35' y1='547.43' x2='418.35' y2='551.03' style='stroke-width: 0.75;' />
+<line x1='457.16' y1='547.43' x2='457.16' y2='551.03' style='stroke-width: 0.75;' />
+<line x1='495.97' y1='547.43' x2='495.97' y2='551.03' style='stroke-width: 0.75;' />
+<line x1='534.78' y1='547.43' x2='534.78' y2='551.03' style='stroke-width: 0.75;' />
+<line x1='573.59' y1='547.43' x2='573.59' y2='551.03' style='stroke-width: 0.75;' />
+<line x1='612.40' y1='547.43' x2='612.40' y2='551.03' style='stroke-width: 0.75;' />
+<line x1='651.22' y1='547.43' x2='651.22' y2='551.03' style='stroke-width: 0.75;' />
+<line x1='690.03' y1='547.43' x2='690.03' y2='551.03' style='stroke-width: 0.75;' />
+<text x='261.44' y='560.29' style='font-size: 6.00px; font-family: Liberation Sans;' textLength='3.34px' lengthAdjust='spacingAndGlyphs'>0</text>
+<text x='294.40' y='560.29' style='font-size: 6.00px; font-family: Liberation Sans;' textLength='15.05px' lengthAdjust='spacingAndGlyphs'>0.025</text>
+<text x='334.88' y='560.29' style='font-size: 6.00px; font-family: Liberation Sans;' textLength='11.70px' lengthAdjust='spacingAndGlyphs'>0.05</text>
+<text x='372.02' y='560.29' style='font-size: 6.00px; font-family: Liberation Sans;' textLength='15.05px' lengthAdjust='spacingAndGlyphs'>0.075</text>
+<text x='414.17' y='560.29' style='font-size: 6.00px; font-family: Liberation Sans;' textLength='8.36px' lengthAdjust='spacingAndGlyphs'>0.1</text>
+<text x='449.64' y='560.29' style='font-size: 6.00px; font-family: Liberation Sans;' textLength='15.05px' lengthAdjust='spacingAndGlyphs'>0.125</text>
+<text x='490.12' y='560.29' style='font-size: 6.00px; font-family: Liberation Sans;' textLength='11.70px' lengthAdjust='spacingAndGlyphs'>0.15</text>
+<text x='527.26' y='560.29' style='font-size: 6.00px; font-family: Liberation Sans;' textLength='15.05px' lengthAdjust='spacingAndGlyphs'>0.175</text>
+<text x='569.41' y='560.29' style='font-size: 6.00px; font-family: Liberation Sans;' textLength='8.36px' lengthAdjust='spacingAndGlyphs'>0.2</text>
+<text x='604.88' y='560.29' style='font-size: 6.00px; font-family: Liberation Sans;' textLength='15.05px' lengthAdjust='spacingAndGlyphs'>0.225</text>
+<text x='645.36' y='560.29' style='font-size: 6.00px; font-family: Liberation Sans;' textLength='11.70px' lengthAdjust='spacingAndGlyphs'>0.25</text>
+<text x='682.50' y='560.29' style='font-size: 6.00px; font-family: Liberation Sans;' textLength='15.05px' lengthAdjust='spacingAndGlyphs'>0.275</text>
+<polyline points='330.31,80.83 478.54,80.83 ' style='stroke-width: 0.75; stroke: #BEBEBE;' />
+<rect x='396.64' y='76.93' width='7.81' height='7.81' style='stroke-width: 0.75; fill: #000000;' />
+<polyline points='330.31,214.14 478.54,214.14 ' style='stroke-width: 0.75; stroke: #BEBEBE;' />
+<rect x='396.64' y='210.24' width='7.81' height='7.81' style='stroke-width: 0.75; fill: #000000;' />
+<polyline points='263.11,347.46 333.90,347.46 ' style='stroke-width: 0.75; stroke: #BEBEBE;' />
+<rect x='301.19' y='340.75' width='13.42' height='13.42' style='stroke-width: 0.75; fill: #000000;' />
+<polyline points='263.11,480.77 705.83,480.77 ' style='stroke-width: 0.75; stroke: #BEBEBE;' />
+<rect x='398.77' y='478.57' width='4.40' height='4.40' style='stroke-width: 0.75; fill: #000000;' />
+</svg>
