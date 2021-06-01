@@ -1,6 +1,6 @@
-7ac37fc046ccb29847af626973fa0b3d *DESCRIPTION
+708d301a8cd50cf8dabe8c1a3e049fad *DESCRIPTION
 10f134ab9ebc8127d8024194ed7fcf39 *NAMESPACE
-82bbd77270b8eabe4ea7638e6cb81ce5 *NEWS.md
+ca11c627d31e56fe160b18659b41a81e *NEWS.md
 7afa5f9ca95225df2c6f4f54532a698e *R/bt_test_mf.R
 e28af722b00e7fc9056d0adc1f56aa72 *R/chop_cs.R
 f75984158e4317a97f8b993521fc97f8 *R/chop_css.R
@@ -13,12 +13,12 @@ f69171e5565d08ea03e01161675c17f9 *R/inference_plot.R
 ac20088df0e077c12c4d144e7219a647 *R/internal.R
 74ee3b4862aaafbac1f52baf134b285e *R/mixed_mf.R
 69056de70c54d7f7bd35f53b54adbefe *R/multiverse_cs.R
-2e50400f6c33808a7ee58946ae769622 *R/rm_anova_mf.R
-d5fda410c664552d639f9788de6b165f *R/rm_banova_mf.R
+7963a823aaa5e9ae993d07be96d706fd *R/rm_anova_mf.R
+9dba91567cf4999a491cbb993b5150dd *R/rm_banova_mf.R
 352d79cc81d20c70e414527993511805 *R/t_test_mf.R
 581ee3206dc0f65e9d7d9ffeb75a048d *R/universe_cs.R
-ca81f984ff94bd6183e4c6016d4e1374 *R/utils.R
-cf2928b413918dd51b200d64647a7c6d *README.md
+2e50a704a7ea750cb88a9201f0a4b246 *R/utils.R
+df55685643b7631a60901ef8eb6a4529 *README.md
 0cda3e7a2768a888d0d24ddec204a901 *data/example_data.rda
 ce8f94b5f0cdf269aead05955c50bde8 *man/bt_test_mf.Rd
 b5a113b86c7f1d066f2f9d6af9ec95e8 *man/chop_cs.Rd
