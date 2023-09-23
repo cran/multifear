@@ -5,6 +5,7 @@
 #' @param data a universe_mf or multiverse_mf object
 #' @param ci should confidence intervals be included -- default to TRUE
 #' @param include_label_text Whether the labels for each effect should be include. Default to \code{TRUE}
+#' @param reported_effect Option as to what effect size to report. The options are: "common" (default option), "anova", or "ttest".
 #' @param ... any additional argument
 #' @details This is a wrapper around the \code{forestplot::forestplot} function.
 #' The function only uses the ANOVAs and the t-tests. For the t-tests though
@@ -19,7 +20,9 @@
 #' @export
 
 forestplot_mf <-
-  function(data, ci = TRUE, include_label_text = TRUE, ...) {
+  function(data, ci = TRUE, include_label_text = TRUE, reported_effect = "common", ...) {
+    match.arg(reported_effect, c("common", "anova", "ttest"))
+
     data %>%
       dplyr::filter(framework == "NHST") -> data
 
@@ -56,30 +59,48 @@ forestplot_mf <-
       dplyr::arrange(method, method_order) %>%
       dplyr::filter(!method %in% c("greater", "less")) -> data
 
-      lci <- data$effect.size.ma.lci
-      hci <- data$effect.size.ma.hci
+      data$method[which(data$method == "two.sided")] <- "t-test"
 
-      if(ci == FALSE){
-        lci <- data$effect.size.ma - 0.0001 # Zero did not work
-        hci <- data$effect.size.ma + 0.0001
+      if (reported_effect  == "anova"){
+          data <- dplyr::filter(data, grepl("ANOVA", model))
+      } else if (reported_effect == "ttest") {
+        data <- dplyr::filter(data, grepl("test", model))
       }
 
-      data$method[which(data$method == "two.sided")] <- "t-test"
+      if (reported_effect == "common"){
+        mean_ma <- data$effect.size.ma
+        lci <- data$effect.size.ma.lci
+        hci <- data$effect.size.ma.hci
+      } else{
+        mean_ma <- data$effect.size
+        lci <- data$effect.size.lci
+        hci <- data$effect.size.hci
+      }
+
+      if(ci == FALSE) {
+        if (reported_effect == "common") {
+          lci <- data$effect.size.ma - 0.0001 # Zero did not work
+          hci <- data$effect.size.ma + 0.0001
+        } else {
+          lci <- data$effect.size - 0.0001 # Zero did not work
+          hci <- data$effect.size + 0.0001
+        }
+      }
+
 
       if (include_label_text) {
         labeltext <-
           paste(data$method, rep("| data used:", nrow(data), sep = ""),  data$method2)
       } else{
-        labeltext <- rep(" ", length(data$effect.size.ma))
+        labeltext <- rep(" ", length(mean_ma))
       }
 
       forestplot::forestplot(
         labeltext =  labeltext,
         boxsize = .25,
-        mean = data$effect.size.ma,
+        mean = mean_ma,
         lower = lci,
         upper = hci,
         ...
       )
-
 }

@@ -1,14 +1,9 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
 <!-- badges: start -->
 
-[![Travis build
-status](https://travis-ci.org/AngelosPsy/multifear.svg?branch=master)](https://travis-ci.org/AngelosPsy/multifear)
-[![codecov](https://codecov.io/gh/AngelosPsy/multifear/branch/master/graph/badge.svg)](https://codecov.io/gh/AngelosPsy/multifear)
-[![R build
-status](https://github.com/AngelosPsy/multifear/workflows/R-CMD-check/badge.svg)](https://github.com/AngelosPsy/multifear/actions)
 [![R-CMD-check](https://github.com/AngelosPsy/multifear/workflows/R-CMD-check/badge.svg)](https://github.com/AngelosPsy/multifear/actions)
+[![R-CMD-check](https://github.com/AngelosPsy/multifear/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/AngelosPsy/multifear/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 # Multifear
@@ -24,7 +19,7 @@ You can install via CRAN with the following command:
 install.packages("multifear")
 ```
 
-For the development version, you can use the following commant:
+For the development version, you can use the following command:
 
 ``` r
 # Install devtools package in case it is not yet installed
@@ -38,11 +33,13 @@ The package can be loaded with the following code:
 library(multifear)
 ```
 
-## Basic Example
+## Example 1 (within-subject design)
 
-We will start with a basic example of how the package works. Before
-doing that, let’s load some additional packages that we need for our
-example.
+We will start with a basic example of how the package works. This
+example includes a single group. After that, we will see how we can run
+the same analyses when we want to test between group effects.
+
+First let’s load some additional packages that we need for our example.
 
 ``` r
 suppressPackageStartupMessages(library(dplyr))
@@ -50,9 +47,9 @@ suppressPackageStartupMessages(library(ggplot2))
 ```
 
 Now we will use some simulated data set that are included as example
-data in the package. In principle, you can use any data including
-conditioned responses (e.g., skin conductance). You can load the
-simulated data in your workspace as follows:
+data in the `multifear` package. In principle, you can use any data
+including conditioned responses (e.g., skin conductance). You can load
+the simulated data in your R environment as follows:
 
 ``` r
 data("example_data")
@@ -99,15 +96,19 @@ head(example_data, 10)
 #> 10 0.72851310 0.96242680 0.0000000 1.27084300 0.03120063 0.00000000     2
 ```
 
-A bit of explanation of the column names. With the column name ‘id’ is
-the participant number. Columns that contain the conditioned responses
-for conditioned stimulus plus (CS+) are denoted with column names
-starting with ‘CSP’. The number next to this name (1, 2, …, 10) is the
-trial number. The same goes for columns starting with ‘CSM’ but this
-denotes conditioned responses in CS- trials. At this point the package
-only supports a single CS+ and a single CS-. Also, the package assumes
-that trials are following each – so trial 2 comes after trial 1 etc.
-Let’s see the data:
+A bit of explanation of the column names. With the column name ‘id’ we
+denote the participant number. Columns that contain the conditioned
+responses for conditioned stimulus plus (CS+) are denoted with column
+names starting with ‘CSP’. The number next to this name (1, 2, …, 10) is
+the trial number. The same goes for columns starting with ‘CSM’ but
+these denote conditioned responses in CS- trials. At this point the
+package only supports a single CS+ and a single CS-. Also, the package
+assumes that trials are following each other – so trial 2 comes after
+trial 1 etc.
+
+Let’s visualize the data (such visualizations are not available in the
+package but they can be carried out easily using the `graphics` or the
+`ggplot2` packages):
 
 ``` r
 datmelt <- example_data %>%
@@ -129,26 +130,27 @@ We see the basic learning pattern where CS+ responses end up being
 higher than CS- responses.
 
 Now we need to analyse the data. For this we will use the
-*multifear::universe\_cs* function. In order for this function to work,
+*multifear::universe_cs* function. In order for this function to work,
 we need to provide the following arguments.
 
-  - CS1: This will be the column names that contain the conditioned
-    responses for the CS+ (i.e., CSP1 until CSP10).
+- CS1: This will be the column names that contain the conditioned
+  responses for the CS+ (i.e., CSP1 until CSP10).
 
-  - CS2: This will be the column names that contain the conditioned
-    response for the CS- (i.e., CSM1 until CSM10).
+- CS2: This will be the column names that contain the conditioned
+  response for the CS- (i.e., CSM1 until CSM10).
 
-  - data: This is our data frame that contain that data for the CS+,
-    CS-, as well as the column with the participant number.
+- data: This is our data frame that contain that data for the CS+, CS-,
+  as well as the column with the participant number.
 
-  - group. In case of a group, then we need to specify the column with
-    the group name. The default option is that there are no groups and
-    we do not have any groups in our example.
+- group. In case of a group, then we need to specify the column with the
+  group name. The default option is that there are no groups. In this
+  first example we do not use any groups but we will do that in our
+  second example – see below.
 
-  - phase. Here we define the conditioning phase that the data were
-    collected in (e.g., acquisition phase, extinction phase, etc).
-    Please note that in case the user has multiple phases, she/he needs
-    to run the function separately for each phases.
+- phase. Here we define the conditioning phase that the data were
+  collected in (e.g., acquisition phase, extinction phase, etc). Please
+  note that in case the user has multiple phases, she/he needs to run
+  the function separately for each phases.
 
 There are some other options in the function, such as defining the type
 of conditioning response. However, these are not necessary for now. So,
@@ -160,112 +162,104 @@ cs2 <- paste0("CSM", 1:10)
 example_data <- example_data[1:10, ]
 res <- multifear::universe_cs(cs1 = cs1, cs2 = cs2, data = example_data, 
                               subj = "id", group = NULL, phase = "acquisition", include_bayes = FALSE)
-#> Registered S3 methods overwritten by 'lme4':
-#>   method                          from
-#>   cooks.distance.influence.merMod car 
-#>   influence.merMod                car 
-#>   dfbeta.influence.merMod         car 
-#>   dfbetas.influence.merMod        car
-#> Registered S3 method overwritten by 'parameters':
-#>   method     from      
-#>   ci.blavaan bayestestR
 ```
 
-And here are the results
+And here are the results:
 
 ``` r
 res
-#> # A tibble: 4 x 18
-#>   x     y     exclusion cut_off model controls method p.value effect.size
-#>   <chr> <chr> <chr>     <chr>   <chr> <lgl>    <chr>    <dbl>       <dbl>
-#> 1 cs    scr   full data full d… t-te… NA       great… 0.00244      0.577 
-#> 2 cs    scr   full data full d… t-te… NA       two.s… 0.00488      0.577 
-#> 3 cs:t… scr   full data full d… rep … NA       rep A… 0.0152       0.0296
-#> 4 cs    scr   full data full d… rep … NA       rep A… 0.00488      0.147 
-#> # … with 9 more variables: effect.size.ma <dbl>, effect.size.ma.lci <dbl>,
-#> #   effect.size.ma.hci <dbl>, estimate <dbl>, statistic <dbl>, conf.low <dbl>,
-#> #   conf.high <dbl>, framework <chr>, data_used <list>
+#> # A tibble: 4 × 20
+#>   x       y     exclusion cut_off   model    controls method p.value effect.size
+#>   <chr>   <chr> <chr>     <chr>     <chr>    <lgl>    <chr>    <dbl>       <dbl>
+#> 1 cs      scr   full data full data t-test   NA       great… 3.33e-5      0.577 
+#> 2 cs      scr   full data full data t-test   NA       two.s… 6.67e-5      0.577 
+#> 3 cs:time scr   full data full data rep ANO… NA       rep A… 1.52e-2      0.0296
+#> 4 cs      scr   full data full data rep ANO… NA       rep A… 4.88e-3      0.147 
+#> # ℹ 11 more variables: effect.size.lci <dbl>, effect.size.hci <dbl>,
+#> #   effect.size.ma <dbl>, effect.size.ma.lci <dbl>, effect.size.ma.hci <dbl>,
+#> #   estimate <dbl>, statistic <dbl>, conf.low <dbl>, conf.high <dbl>,
+#> #   framework <chr>, data_used <list>
 ```
 
 Let’s go through each column separately
 
-  - x : is the effect that you are testing. For example, the cs means
-    that you are testing cs differences. cs:time the cs X time
-    interaction is tested. Be careful: when testing interactions, we
-    only report the highest order interaction. That means that if you
-    have a cs x time interaction, you do not get the results of the cs
-    or the time main effect.
+- x : is the effect that you are testing. For example, the cs means that
+  you are testing cs differences. cs:time the cs X time interaction is
+  tested. Be careful: when testing interactions, we only report the
+  highest order interaction. That means that if you have a cs x time
+  interaction, you do not get the results of the cs or the time main
+  effect.
 
-  - y: the dependent variable. In the example this is the *scr*
-    responses.
+- y: the dependent variable. In the example this is the *scr* responses.
 
-  - exclusion: This columns reports as to what data were included in the
-    data set. For example, here you see that we have only full data sets
-    – no exclusion. This is because the multifear::universe\_cs() only
-    analyses full data sets. If we want to apply some exclusion
-    criteria, we need to run the multifear::multiverse\_cs() function –
-    see later on.
+- exclusion: This columns reports as to what data were included in the
+  data set. For example, here you see that we have only full data sets –
+  no exclusion. This is because the multifear::universe_cs() only
+  analyses full data sets. If we want to apply some exclusion criteria,
+  we need to run the multifear::multiverse_cs() function – see later on.
 
-  - model: What model was used. For example, here we see t-tests, and
-    rep ANOVA (which means repeated measures ANOVA).
+- model: What model was used. For example, here we see t-tests, and rep
+  ANOVA (which means repeated measures ANOVA).
 
-  - controls: This column is left empty. I included it because the specs
-    R package had it so we may need to use it later on.
+- controls: This column is left empty. I included it because the specs R
+  package had it so we may need to use it later on.
 
-  - method: The method is a combination of the *model* and *x* column.
-    Not really necessary if the other two columns exist.
+- method: The method is a combination of the *model* and *x* column. Not
+  really necessary if the other two columns exist.
 
-  - p.value: The p-value of the test
+- p.value: The p-value of the test
 
-  - estimate: The estimate that is returned from the test. Keep in mind
-    though that this applies only for the t-test at the moment. We need
-    to see what we can do for the ANOVA,
+- estimate: The estimate that is returned from the test. Keep in mind
+  though that this applies only for the t-test at the moment. We need to
+  see what we can do for the ANOVA,
 
-  - statistic. The statistic of the test
+- statistic. The statistic of the test
 
-  - conf.low and conf.high In case you have an estimate, this returns
-    the low and high levels of it
+- conf.low and conf.high In case you have an estimate, this returns the
+  low and high levels of it
 
-  - framework were the data analysed within a NHST or Bayesian
-    framework?
+- framework were the data analysed within a NHST or Bayesian framework?
 
-  - data\_used Here you have a data frame with the data used for the
-    performed analyses. This is because someone maybe wants to recreate
-    the results and also as a check that nothing went wrong.
+- data_used Here you have a data frame with the data used for the
+  performed analyses. This is because someone maybe wants to recreate
+  the results and also as a check that nothing went wrong.
 
 Now, we want to perform the same analyses but for different data
 reduction procedures (see below). We can do it simply by:
 
 ``` r
-
-res_multi <- multifear::multiverse_cs(cs1 = cs1, cs2 = cs2, data = example_data, subj = "id", group = NULL, phase = "acquisition", include_bayes = TRUE, include_mixed = TRUE)
+res_multi <- multifear::multiverse_cs(cs1 = cs1, cs2 = cs2, data = example_data,
+                                      subj = "id", group = NULL, 
+                                      phase = "acquisition", 
+                                      include_bayes = TRUE, include_mixed = TRUE)
 #> Skipping ANOVA due to the number of trials for the cs1 and/or cs2.
 res_multi
-#> # A tibble: 116 x 19
-#>    x     y     exclusion cut_off model controls method   p.value effect.size
-#>    <chr> <chr> <chr>     <chr>   <chr> <lgl>    <chr>      <dbl>       <dbl>
-#>  1 cs    scr   full_data full d… t-te… NA       great…  2.44e- 3      0.577 
-#>  2 cs    scr   full_data full d… t-te… NA       two.s…  4.88e- 3      0.577 
-#>  3 cs    scr   full_data full d… Baye… NA       Bayes… NA            NA     
-#>  4 cs    scr   full_data full d… Baye… NA       Bayes… NA            NA     
-#>  5 cs:t… scr   full_data full d… rep … NA       rep A…  1.52e- 2      0.0296
-#>  6 cs    scr   full_data full d… rep … NA       rep A…  4.88e- 3      0.147 
-#>  7 cscs2 scr   full_data <NA>    mixe… NA       mixed…  1.80e-13     NA     
-#>  8 cscs… scr   full_data <NA>    mixe… NA       mixed…  5.92e- 7     NA     
-#>  9 cscs2 scr   full_data <NA>    mixe… NA       mixed…  1.82e- 5     NA     
-#> 10 cscs… scr   full_data <NA>    mixe… NA       mixed…  2.16e- 2     NA     
-#> # … with 106 more rows, and 10 more variables: effect.size.ma <dbl>,
-#> #   effect.size.ma.lci <dbl>, effect.size.ma.hci <dbl>, estimate <dbl>,
-#> #   statistic <dbl>, conf.low <dbl>, conf.high <dbl>, framework <chr>,
-#> #   data_used <list>, efffect.size.ma <lgl>
+#> # A tibble: 116 × 21
+#>    x         y     exclusion cut_off model controls method   p.value effect.size
+#>    <chr>     <chr> <chr>     <chr>   <chr> <lgl>    <chr>      <dbl>       <dbl>
+#>  1 cs        scr   full_data full d… t-te… NA       great…  3.33e- 5      0.577 
+#>  2 cs        scr   full_data full d… t-te… NA       two.s…  6.67e- 5      0.577 
+#>  3 cs        scr   full_data full d… Baye… NA       Bayes… NA            NA     
+#>  4 cs        scr   full_data full d… Baye… NA       Bayes… NA            NA     
+#>  5 cs:time   scr   full_data full d… rep … NA       rep A…  1.52e- 2      0.0296
+#>  6 cs        scr   full_data full d… rep … NA       rep A…  4.88e- 3      0.147 
+#>  7 cscs2     scr   full_data <NA>    mixe… NA       mixed…  1.80e-13     NA     
+#>  8 cscs2:ti… scr   full_data <NA>    mixe… NA       mixed…  5.92e- 7     NA     
+#>  9 cscs2     scr   full_data <NA>    mixe… NA       mixed…  1.82e- 5     NA     
+#> 10 cscs2:ti… scr   full_data <NA>    mixe… NA       mixed…  2.16e- 2     NA     
+#> # ℹ 106 more rows
+#> # ℹ 12 more variables: effect.size.lci <dbl>, effect.size.hci <dbl>,
+#> #   effect.size.ma <dbl>, effect.size.ma.lci <dbl>, effect.size.ma.hci <dbl>,
+#> #   estimate <dbl>, statistic <dbl>, conf.low <dbl>, conf.high <dbl>,
+#> #   framework <chr>, data_used <list>, efffect.size.ma <lgl>
 ```
 
 In terms of calling the function, we see that we need exactly the same
 arguments as before. Internally, the function actually applies the
-multifear::universe\_cs but now apart from the full data set, also for
+`multifear::universe_cs` but now apart from the full data set, also for
 the data sets with different data inclusion procedures. Whether each
 line refers to the full data set or any of the exclusion criteria, we
-can see on the column exclusion criteria or in the data\_used column,
+can see on the column exclusion criteria or in the data_used column,
 although there it is difficult to see what happened and it serves only
 reproduction criteria. So, the easiest thing to do is to see the
 exclusion column. Now, it has the following levels:
@@ -282,12 +276,12 @@ The explanation of each level is the following:
 
 2)  fltrials: first and last trial
 
-3)  full\_data: full data set
+3)  full_data: full data set
 
 4)  halves: use the first and last half of the trial. So, if you have 10
     trials, you will have the first 5 and last 5 trials
 
-5)  min\_first: take all trials apart from the first one
+5)  min_first: take all trials apart from the first one
 
 6)  separate trials per 2
 
@@ -316,14 +310,12 @@ function and you will get:
 
 6)  the proportion of Bayes factors above 1
 
-<!-- end list -->
-
 ``` r
 multifear::inference_cs(res_multi, na.rm = TRUE)
 #>   mean_p_value median_p_value sd_p_value prop_p_value mean_bf_value
-#> 1    0.1074323     0.00638261  0.2341194     82.35294      1958.082
+#> 1   0.04462268   0.0002425968  0.1662026     94.11765      1885.262
 #>   median_bf_value sd_bf_value prop_bf_value
-#> 1        4.319848    10487.83      73.52941
+#> 1        4.319848    10119.94      73.52941
 ```
 
 And here we have a barplot of the results:
@@ -339,10 +331,68 @@ multifear::inference_plot(res_multi, add_line = FALSE)
     #> 1 1 (1-1,1-1) arrange gtable[layout]
     #> 2 2 (1-1,2-2) arrange gtable[layout]
 
-Lastly, to plot the effect sizes, you can use the following function
+Lastly, to plot the effect sizes, you can use the following function for
+the within-subjects effects:
 
 ``` r
 multifear::forestplot_mf(res_multi)
 ```
 
 ![](README_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
+
+## Example 2 (within\*between -subject design)
+
+Importantly, `multifear` is able to run the same analyses as in example
+1 even when groups are included. This can be simply done by defining the
+name of the column that includes the group levels (in the example data
+set that name is “group” but you can use any other name). Then, you can
+just run the same line of code as in example 1, after defying the group
+parameter, as follows:
+
+``` r
+res_multi_group <- multifear::multiverse_cs(cs1 = cs1, cs2 = cs2,
+                                            data = example_data, subj = "id", 
+                                            group = "group", phase = "acquisition",
+                                            include_bayes = TRUE, include_mixed = TRUE)
+#> Skipping ANOVA due to the number of trials for the cs1 and/or cs2.
+res_multi_group
+#> # A tibble: 116 × 21
+#>    x         y     exclusion cut_off model controls method   p.value effect.size
+#>    <chr>     <chr> <chr>     <chr>   <chr> <lgl>    <chr>      <dbl>       <dbl>
+#>  1 cs        scr   full_data full d… t-te… NA       great…  3.33e- 5     0.577  
+#>  2 cs        scr   full_data full d… t-te… NA       two.s…  6.67e- 5     0.577  
+#>  3 cs        scr   full_data full d… Baye… NA       Bayes… NA           NA      
+#>  4 cs        scr   full_data full d… Baye… NA       Bayes… NA           NA      
+#>  5 group:cs… scr   full_data full d… rep … NA       rep A…  3.43e- 1     0.00288
+#>  6 group:cs  scr   full_data full d… rep … NA       rep A…  4.60e- 1     0      
+#>  7 cscs2     scr   full_data <NA>    mixe… NA       mixed…  1.80e-13    NA      
+#>  8 cscs2:ti… scr   full_data <NA>    mixe… NA       mixed…  5.92e- 7    NA      
+#>  9 cscs2     scr   full_data <NA>    mixe… NA       mixed…  1.82e- 5    NA      
+#> 10 cscs2:ti… scr   full_data <NA>    mixe… NA       mixed…  2.16e- 2    NA      
+#> # ℹ 106 more rows
+#> # ℹ 12 more variables: effect.size.lci <dbl>, effect.size.hci <dbl>,
+#> #   effect.size.ma <dbl>, effect.size.ma.lci <dbl>, effect.size.ma.hci <dbl>,
+#> #   estimate <dbl>, statistic <dbl>, conf.low <dbl>, conf.high <dbl>,
+#> #   framework <chr>, data_used <list>, efffect.size.ma <lgl>
+```
+
+Accordingly, the inference plots look as follows:
+
+``` r
+multifear::inference_plot(res_multi_group, add_line = FALSE)
+```
+
+![](README_files/figure-gfm/unnamed-chunk-17-1.png)<!-- -->
+
+    #> TableGrob (1 x 2) "arrange": 2 grobs
+    #>   z     cells    name           grob
+    #> 1 1 (1-1,1-1) arrange gtable[layout]
+    #> 2 2 (1-1,2-2) arrange gtable[layout]
+
+Lastly, here are the forestoplot for the second example:
+
+``` r
+multifear::forestplot_mf(res_multi_group)
+```
+
+![](README_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->

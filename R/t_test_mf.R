@@ -128,7 +128,7 @@ t_test_mf <-
           ~ stats::t.test(
             formula = .$cs ~ .$group,
             data = .,
-            paired = FALSE,
+            #paired = FALSE,
             alternative = .$alternative[1],
             var.equal = FALSE
           ) %>%
@@ -151,7 +151,7 @@ t_test_mf <-
           ~ stats::t.test(
             formula = .$cs ~ .$group,
             data = .,
-            paired = FALSE,
+            #paired = FALSE,
             alternative = .$alternative[1],
             var.equal = FALSE
           ) %>%
@@ -170,7 +170,7 @@ t_test_mf <-
         ttest_es_ma <-  stats::t.test(
           ttest_prep_tmp$cs ~ as.factor(ttest_prep_tmp$group),
           pooled = TRUE,
-          paired = FALSE,
+          #paired = FALSE,
           alternative = "two.sided",
           hedges.correction = FALSE
         )
@@ -190,9 +190,11 @@ t_test_mf <-
         dplyr::group_by(group2) %>%
         dplyr::group_map(
           ~ stats::t.test(
-            formula = .$value ~ .$N,
+            #formula = .$value ~ .$N,
+            stats::Pair(unlist(data %>% dplyr::select(all_of("cs.1"))),
+            unlist(data %>% dplyr::select(all_of("cs.2")))),
             data = .,
-            paired = paired,
+            #paired = paired,
             alternative = .$alternative[1],
             var.equal = FALSE
           ) %>%
@@ -223,10 +225,10 @@ t_test_mf <-
       } else if(meta.effect == "t_to_eta2") {
         ttest_es_ma <- ttest_es <-
           stats::t.test(
-            unlist(data %>% dplyr::select(all_of("cs.1"))),
-            unlist(data %>% dplyr::select(all_of("cs.2"))),
+            stats::Pair(unlist(data %>% dplyr::select(all_of("cs.1"))),
+            unlist(data %>% dplyr::select(all_of("cs.2")))),
             pooled = TRUE,
-            paired = TRUE,
+            #paired = TRUE,
             hedges.correction = FALSE
           )
       }
@@ -240,6 +242,8 @@ t_test_mf <-
       ttest_res <-
         purrr::invoke("rbind", ttest_prep) %>%
         dplyr::mutate(effect.size = rep(ttest_es$estimate, 3),
+                      effect.size.lci = rep(ttest_es$conf.int[[1]], 3),
+                      effect.size.hci = rep(ttest_es$conf.int[[2]], 3),
                       effect.size.ma = rep(esc::eta_squared(d = es_ma), 3),
                      effect.size.ma.lci = rep(esc::eta_squared(d = es_ma - ci_ma), 3),
                      effect.size.ma.hci = rep(esc::eta_squared(d = es_ma + ci_ma), 3))
@@ -304,6 +308,8 @@ t_test_mf <-
         method,
         p.value,
         effect.size,
+        effect.size.lci,
+        effect.size.hci,
         effect.size.ma,
         effect.size.ma.lci,
         effect.size.ma.hci,
